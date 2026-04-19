@@ -3,79 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BINASOU GOLD</title>
+    <title>BINASOU GOLD OFFICIAL</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root { --gold: #FFD700; --bg: #000; }
-        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; text-align: center; }
-        .header { padding: 20px; background: #080808; border-bottom: 1px solid #222; }
-        #balance { font-size: 50px; color: var(--gold); font-weight: bold; }
-        .main-btn { 
-            width: 220px; height: 220px; border-radius: 50%; border: 8px solid #1a1a1a;
-            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%);
-            margin: 50px auto; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-        }
-        .main-btn:active { transform: scale(0.95); }
-        .btn-text { color: black; font-size: 30px; font-weight: 900; }
-        .nav { position: fixed; bottom: 0; width: 100%; display: flex; background: #0a0a0a; border-top: 1px solid #222; }
-        .nav-item { flex: 1; padding: 15px; cursor: pointer; color: #555; }
-        .nav-item.active { color: var(--gold); border-top: 2px solid var(--gold); }
-        #tasks { display: none; padding: 20px; }
-        .task-card { background: #151515; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div style="font-size: 12px; color: #888;">رصيد BINASOU</div>
-        <div id="balance">0</div>
-    </div>
-
-    <div id="mining">
-        <div class="main-btn" id="tap">
-            <span class="btn-text">BINASOU</span>
-        </div>
-        <p style="color:var(--gold);">⚡ انقر لتكون من النخبة</p>
-    </div>
-
-    <div id="tasks">
-        <div class="task-card">
-            <span>دعوة صديق (+5,000)</span>
-            <button onclick="invite()" style="background:var(--gold); border:none; padding:5px 10px; border-radius:5px;">دعوة</button>
-        </div>
-    </div>
-
-    <div class="nav">
-        <div class="nav-item active" id="mTab" onclick="show('mining')">⛏️ تعدين</div>
-        <div class="nav-item" id="tTab" onclick="show('tasks')">💰 المهام</div>
-    </div>
-
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready(); tg.expand();
-        let score = parseInt(localStorage.getItem('b_bal')) || 0;
+        /* التنسيق البصري لمنع الشاشة السوداء */
+        :root { --gold: #FFD700; --bg: #000; --card: #151515; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 0; text-align: center; overflow: hidden; touch-action: manipulation; user-select: none; }
         
-        function update() {
-            document.getElementById('balance').innerText = score.toLocaleString();
-            localStorage.setItem('b_bal', score);
-        }
+        .header { padding: 25px 20px; background: #080808; border-bottom: 1px solid #222; }
+        .balance-value { font-size: 50px; color: var(--gold); font-weight: bold; }
 
-        document.getElementById('tap').addEventListener('touchstart', (e) => {
-            e.preventDefault(); score++; update();
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        });
+        .content { height: calc(100vh - 180px); overflow-y: auto; padding: 20px; }
+        .section { display: none; width: 100%; }
+        .active { display: block; }
 
-        function show(id) {
-            document.getElementById('mining').style.display = id === 'mining' ? 'block' : 'none';
-            document.getElementById('tasks').style.display = id === 'tasks' ? 'block' : 'none';
-            document.getElementById('mTab').classList.toggle('active', id === 'mining');
-            document.getElementById('tTab').classList.toggle('active', id === 'tasks');
+        /* الزر الذهبي BINASOU */
+        .gold-button { 
+            width: 250px; height: 250px; border-radius: 50%;
+            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%, #8b6508 100%); 
+            border: 8px solid #1a1a1a; box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.05s; cursor: pointer; margin: 40px auto 20px;
         }
+        .gold-button:active { transform: scale(0.92); }
+        .coin-text { color: #000; font-size: 38px; font-weight: 900; pointer-events: none; }
 
-        function invite() {
-            tg.openTelegramLink("https://t.me/share/url?url=https://t.me/binasou_win_bot");
-        }
-        update();
-    </script>
-</body>
-</html>
+        /* شريط التنقل السفلي */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; background: #0a0a0a; border-top: 1px solid #222; padding-bottom: 20px; }
