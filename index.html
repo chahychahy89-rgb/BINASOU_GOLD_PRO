@@ -3,35 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>BINASOU PRO OFFICIAL</title>
+    <title>BINASOU PRESTIGE</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.js"></script>
     <style>
-        :root { --gold: #FFD700; --bg: #000; --card: #161616; }
-        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; text-align: center; overflow: hidden; }
+        :root { --gold: #FFD700; --bg: #000; --card: #121212; }
+        body { background: var(--bg); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; text-align: center; overflow: hidden; }
         
-        /* الهيدر */
-        .header { padding: 20px; border-bottom: 1px solid #333; background: #0a0a0a; }
-        .balance-label { font-size: 12px; color: #888; }
-        .balance-value { font-size: 45px; color: var(--gold); font-weight: bold; margin-top: 5px; }
-        
-        /* الأقسام */
-        .section { display: none; height: 70vh; padding: 20px; overflow-y: auto; }
+        .header { padding: 25px; border-bottom: 1px solid #222; background: linear-gradient(to bottom, #0a0a0a, #000); }
+        .balance-label { font-size: 13px; color: #aaa; letter-spacing: 1px; }
+        .balance-value { font-size: 50px; color: var(--gold); font-weight: 900; text-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+
+        .section { display: none; height: 65vh; padding: 20px; overflow-y: auto; }
         .active { display: block; }
-        
-        /* زر التعدين والشعار */
-        .coin-btn { 
-            width: 240px; height: 240px; 
-            background: radial-gradient(circle, #ffec8b, #b8860b); 
-            border-radius: 50%; border: 8px solid #222; 
-            box-shadow: 0 0 30px var(--gold); 
-            margin: 40px auto; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 32px; font-weight: bold; color: #000;
-            transition: transform 0.1s;
-            -webkit-tap-highlight-color: transparent;
+
+        /* دائرة التعدين الفخمة مع الشعار */
+        .coin-wrapper { display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; }
+        .gold-circle { 
+            width: 250px; height: 250px; 
+            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%, #8b6508 100%); 
+            border-radius: 50%; border: 10px solid #1a1a1a; 
+            box-shadow: 0 0 40px rgba(184, 134, 11, 0.6); 
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.05s ease; -webkit-tap-highlight-color: transparent;
         }
-        .coin-btn:active { transform: scale(0.95); }
-        
-        /* بطاقات المهام */
-        .task-card { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1
+        .gold-circle:active { transform: scale(0.92); }
+        .logo-text { color: #000; font-size: 38px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; transform: rotate(-5px); }
+
+        /* تصميم المهام */
+        .task-card { background: var(--card); padding: 18px; border-radius: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #1f1f1f; transition: 0.3s; }
+        .task-card:hover { border-color: var(--gold); }
+        .btn-action { background: var(--gold); color: black; border: none; padding: 12px 22px; border-radius: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 215, 0,
