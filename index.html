@@ -1,13 +1,66 @@
-function runAd() {
-        if (typeof Adsgram !== 'undefined') {
-            const ad = Adsgram.init({ blockId: "28090" });
-            ad.show().then(() => { score += 1000; update(); }).catch(() => { alert("الإعلان غير جاهز"); });
-        } else {
-            alert("نظام الإعلانات معطل حالياً");
+<div class="nav-bar">
+    <div class="nav-item active" onclick="changeTab('mining-sec', this)">⛏️ تعدين</div>
+    <div class="nav-item" onclick="changeTab('tasks-sec', this)">💰 المهام</div>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+
+    // تشغيل آمن للإعلانات لمنع الشاشة السوداء
+    let AdController = null;
+    try {
+        if (window.Adsgram) {
+            AdController = window.Adsgram.init({ blockId: "28090" });
+        }
+    } catch (e) { console.error("Adsgram failed"); }
+
+    let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
+
+    // استخدام touchstart لسرعة الاستجابة في التعدين
+    document.getElementById('mainCoin').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        mineClick();
+    });
+
+    function mineClick() {
+        score += 1;
+        render();
+        if (tg.HapticFeedback) {
+            tg.HapticFeedback.impactOccurred('medium');
         }
     }
 
-    update();
+    function watchAd() {
+        if (AdController) {
+            AdController.show().then(() => {
+                score += 1000; render(); tg.showAlert("مبروك! ربحت 1,000 عملة");
+            }).catch(() => { tg.showAlert("الإعلان غير جاهز بعد.."); });
+        } else {
+            tg.showAlert("نظام الإعلانات غير متاح حالياً");
+        }
+    }
+
+    function changeTab(id, el) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        el.classList.add('active');
+    }
+
+    function render() {
+        document.getElementById('balance').innerText = Math.floor(score).toLocaleString();
+        localStorage.setItem('binasou_bal', score);
+    }
+
+    function inviteFriend() {
+        const botLink = "https://t.me/binasou_win_bot";
+        const text = "انضم واربح الذهب في BINASOU!";
+        tg.openTelegramLink(https://t.me/share/url?url=${encodeURIComponent(botLink)}&text=${encodeURIComponent(text)});
+    }
+
+    render();
 </script>
 </body>
 </html>
