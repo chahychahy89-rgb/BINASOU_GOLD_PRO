@@ -10,26 +10,36 @@
         :root { --gold: #FFD700; --bg: #000; }
         body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 0; text-align: center; overflow: hidden; touch-action: manipulation; }
         
+        /* الهيدر */
         .header { padding: 25px 20px; background: #080808; border-bottom: 1px solid #222; }
         .balance-value { font-size: 50px; color: var(--gold); font-weight: bold; }
 
-        .content { height: 70vh; display: flex; align-items: center; justify-content: center; }
+        /* محتوى التعدين */
+        .content { height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .section { display: none; width: 100%; }
         .active { display: block; }
 
-        /* دائرة التعدين والشعار */
+        /* دائرة التعدين مع الشعار */
         .gold-button { 
-            width: 250px; height: 250px; border-radius: 50%;
+            width: 260px; height: 260px; border-radius: 50%;
             background: radial-gradient(circle, #ffe047 0%, #b8860b 70%, #8b6508 100%); 
             border: 8px solid #1a1a1a; box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
             display: flex; align-items: center; justify-content: center;
             transition: transform 0.05s; cursor: pointer; margin: auto;
+            position: relative;
         }
         .gold-button:active { transform: scale(0.92); }
-        .coin-text { color: #000; font-size: 38px; font-weight: 900; letter-spacing: -1px; pointer-events: none; }
+        
+        /* تنسيق كلمة BINASOU لتظهر كشعار */
+        .coin-text { 
+            color: #000; font-size: 38px; font-weight: 900; 
+            letter-spacing: -1px; pointer-events: none; 
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.2);
+        }
 
-        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; background: #0a0a0a; border-top: 1px solid #222; padding-bottom: 15px; }
-        .nav-item { flex: 1; padding: 15px; color: #555; cursor: pointer; }
+        /* شريط التنقل */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; background: #0a0a0a; border-top: 1px solid #222; padding-bottom: 20px; }
+        .nav-item { flex: 1; padding: 15px; color: #555; cursor: pointer; font-weight: bold; }
         .nav-item.active { color: var(--gold); background: #111; }
     </style>
 </head>
@@ -45,7 +55,7 @@
         <div class="gold-button" id="coinBtn">
             <span class="coin-text">BINASOU</span>
         </div>
-        <p style="color:var(--gold); margin-top: 20px;">انقر لتجميع الذهب ⚡</p>
+        <p style="color:var(--gold); margin-top: 25px; font-weight: bold;">انقر لتجميع الذهب ⚡</p>
     </div>
 </div>
 
@@ -66,7 +76,7 @@
         localStorage.setItem('binasou_bal', score);
     }
 
-    // إصلاح مشكلة اختفاء النص وسرعة النقر
+    // نظام النقر السريع
     document.getElementById('coinBtn').addEventListener('touchstart', (e) => {
         e.preventDefault();
         score += 1;
