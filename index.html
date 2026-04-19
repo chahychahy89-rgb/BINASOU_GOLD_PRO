@@ -1,51 +1,59 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BINASOU GOLD</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; text-align: center; overflow: hidden; user-select: none; }
-        .header { padding: 30px 20px; background: #0a0a0a; border-bottom: 1px solid #222; }
-        #balance { font-size: 60px; color: #FFD700; font-weight: bold; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
-        .coin-area { height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .gold-btn { 
-            width: 250px; height: 250px; border-radius: 50%; border: 10px solid #1a1a1a;
-            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%);
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2); transition: transform 0.05s; cursor: pointer;
-        }
-        .gold-btn:active { transform: scale(0.92); }
-        .nav { position: fixed; bottom: 0; width: 100%; display: flex; background: #050505; border-top: 1px solid #222; padding-bottom: 20px; }
-        .nav-item { flex: 1; padding: 15px; color: #FFD700; font-weight: bold; font-size: 18px; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div style="font-size: 14px; color: #888;">رصيد BINASOU</div>
-        <div id="balance">0</div>
+</div>
+            <button class="btn-action" onclick="alert('الإعلانات ستتوفر قريباً جداً!')">قريباً</button>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-info">
+                <span class="task-title">الانضمام لقناتنا</span>
+                <span class="task-reward">+2,500 عملة</span>
+            </div>
+            <button class="btn-action" onclick="window.open('https://t.me/your_channel', '_blank')">انضم</button>
+        </div>
     </div>
-    <div class="coin-area">
-        <div class="gold-btn" id="btn"></div>
-        <p style="color:#FFD700; margin-top: 25px; font-weight: bold;">⚡ اضغط على العملة للربح</p>
-    </div>
-    <div class="nav">
-        <div class="nav-item">⛏️ تعدين</div>
-        <div class="nav-item" onclick="alert('قريباً...')">💰 المهام</div>
-    </div>
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready(); tg.expand();
-        let score = parseInt(localStorage.getItem('b_bal')) || 0;
-        function update() {
-            document.getElementById('balance').innerText = score.toLocaleString();
-            localStorage.setItem('b_bal', score);
-        }
-        document.getElementById('btn').addEventListener('touchstart', (e) => {
-            e.preventDefault(); score++; update();
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        });
-        update();
-    </script>
+</div>
+
+<nav class="nav-bar">
+    <div id="tab1" class="nav-item active" onclick="switchTab('mining-sec', 'tab1')">⛏️ تعدين</div>
+    <div id="tab2" class="nav-item" onclick="switchTab('tasks-sec', 'tab2')">💰 المهام</div>
+</nav>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready(); tg.expand();
+
+    let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
+    
+    function render() {
+        document.getElementById('balance').innerText = Math.floor(score).toLocaleString();
+        localStorage.setItem('binasou_bal', score);
+    }
+
+    // نظام النقر
+    document.getElementById('coinBtn').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        score++;
+        render();
+        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+    });
+
+    // التبديل بين التعدين والمهام (هذا هو الحل)
+    function switchTab(sectionId, tabId) {
+        // إخفاء الأقسام
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        // إلغاء تفعيل الأزرار
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        
+        // إظهار القسم المطلوب
+        document.getElementById(sectionId).classList.add('active');
+        // تفعيل الزر المطلوب
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    function invite() {
+        tg.openTelegramLink("https://t.me/share/url?url=https://t.me/binasou_win_bot&text=كن من النخبة واجمع الذهب مع BINASOU!");
+    }
+
+    render();
+</script>
 </body>
 </html>
