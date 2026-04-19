@@ -1,49 +1,66 @@
-<div class="task-info"><span class="task-title">مشاهدة فيديو مكافأة</span><span class="task-reward">+1,000 عملة</span></div>
-            <button class="btn-gold" onclick="runAd()">تنفيذ</button>
-        </div>
-        <div class="task-card">
-            <div class="task-info"><span class="task-title">دعوة شريك جديد</span><span class="task-reward">+5,000 عملة</span></div>
-            <button class="btn-gold" onclick="invite()">دعوة</button>
-        </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BINASOU GOLD</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.js"></script>
+    <style>
+        :root { --gold: #FFD700; --bg: #000; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 0; text-align: center; overflow: hidden; touch-action: manipulation; }
+        .header { padding: 30px 20px; background: #080808; border-bottom: 1px solid #222; }
+        .balance-value { font-size: 50px; color: var(--gold); font-weight: bold; }
+        .coin-area { display: flex; align-items: center; justify-content: center; height: 60vh; }
+        .gold-button { 
+            width: 220px; height: 220px; border-radius: 50%;
+            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%); 
+            border: 8px solid #1a1a1a; box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            display: flex; align-items: center; justify-content: center; transition: transform 0.05s;
+        }
+        .gold-button:active { transform: scale(0.95); }
+        .coin-text { color: #000; font-size: 30px; font-weight: 900; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; background: #0a0a0a; border-top: 1px solid #222; padding-bottom: 20px; }
+        .nav-item { flex: 1; padding: 15px; color: #888; font-weight: bold; }
+        .nav-item.active { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div style="font-size: 12px; color: #888;">رصيد BINASOU</div>
+    <div id="balance" class="balance-value">0</div>
+</div>
+
+<div class="coin-area">
+    <div class="gold-button" id="coinBtn">
+        <span class="coin-text">GOLD</span>
     </div>
 </div>
 
-<nav class="nav-bar">
-    <div class="nav-item active" onclick="tab('mining-sec', this)">⛏️ تعدين</div>
-    <div class="nav-item" onclick="tab('tasks-sec', this)">💰 المهام</div>
-</nav>
+<div class="nav-bar">
+    <div class="nav-item active">⛏️ تعدين</div>
+    <div class="nav-item" onclick="tg.showAlert('قسم المهام قيد التجهيز')">💰 المهام</div>
+</div>
 
 <script>
     const tg = window.Telegram.WebApp;
-    tg.ready(); tg.expand();
+    tg.ready();
+    tg.expand();
 
     let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
-    const render = () => { 
-        document.getElementById('balance').innerText = Math.floor(score).toLocaleString(); 
+    
+    function render() {
+        document.getElementById('balance').innerText = Math.floor(score).toLocaleString();
         localStorage.setItem('binasou_bal', score);
-    };
+    }
 
     document.getElementById('coinBtn').addEventListener('touchstart', (e) => {
-        e.preventDefault(); score++; render();
-        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+        e.preventDefault();
+        score += 1;
+        render();
+        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     });
-
-    function tab(id, el) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-    }
-
-    function runAd() {
-        if (window.Adsgram) {
-            window.Adsgram.init({ blockId: "28090" }).show().then(() => { score += 1000; render(); });
-        }
-    }
-
-    function invite() {
-        tg.openTelegramLink("https://t.me/share/url?url=https://t.me/binasou_win_bot&text=اربح الذهب!");
-    }
 
     render();
 </script>
