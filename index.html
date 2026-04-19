@@ -3,30 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BINASOU GOLD OFFICIAL</title>
+    <title>BINASOU GOLD</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* التنسيق البصري لمنع الشاشة السوداء */
-        :root { --gold: #FFD700; --bg: #000; --card: #151515; }
-        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 0; text-align: center; overflow: hidden; touch-action: manipulation; user-select: none; }
-        
-        .header { padding: 25px 20px; background: #080808; border-bottom: 1px solid #222; }
-        .balance-value { font-size: 50px; color: var(--gold); font-weight: bold; }
-
-        .content { height: calc(100vh - 180px); overflow-y: auto; padding: 20px; }
-        .section { display: none; width: 100%; }
-        .active { display: block; }
-
-        /* الزر الذهبي BINASOU */
-        .gold-button { 
-            width: 250px; height: 250px; border-radius: 50%;
-            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%, #8b6508 100%); 
-            border: 8px solid #1a1a1a; box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-            display: flex; align-items: center; justify-content: center;
-            transition: transform 0.05s; cursor: pointer; margin: 40px auto 20px;
+        body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; text-align: center; overflow: hidden; user-select: none; }
+        .header { padding: 30px 20px; background: #0a0a0a; border-bottom: 1px solid #222; }
+        #balance { font-size: 60px; color: #FFD700; font-weight: bold; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
+        .coin-area { height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .gold-btn { 
+            width: 250px; height: 250px; border-radius: 50%; border: 10px solid #1a1a1a;
+            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2); transition: transform 0.05s; cursor: pointer;
         }
-        .gold-button:active { transform: scale(0.92); }
-        .coin-text { color: #000; font-size: 38px; font-weight: 900; pointer-events: none; }
-
-        /* شريط التنقل السفلي */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; background: #0a0a0a; border-top: 1px solid #222; padding-bottom: 20px; }
+        .gold-btn:active { transform: scale(0.92); }
+        .nav { position: fixed; bottom: 0; width: 100%; display: flex; background: #050505; border-top: 1px solid #222; padding-bottom: 20px; }
+        .nav-item { flex: 1; padding: 15px; color: #FFD700; font-weight: bold; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="font-size: 14px; color: #888;">رصيد BINASOU</div>
+        <div id="balance">0</div>
+    </div>
+    <div class="coin-area">
+        <div class="gold-btn" id="btn"></div>
+        <p style="color:#FFD700; margin-top: 25px; font-weight: bold;">⚡ اضغط على العملة للربح</p>
+    </div>
+    <div class="nav">
+        <div class="nav-item">⛏️ تعدين</div>
+        <div class="nav-item" onclick="alert('قريباً...')">💰 المهام</div>
+    </div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready(); tg.expand();
+        let score = parseInt(localStorage.getItem('b_bal')) || 0;
+        function update() {
+            document.getElementById('balance').innerText = score.toLocaleString();
+            localStorage.setItem('b_bal', score);
+        }
+        document.getElementById('btn').addEventListener('touchstart', (e) => {
+            e.preventDefault(); score++; update();
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+        });
+        update();
+    </script>
+</body>
+</html>
