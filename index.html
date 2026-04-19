@@ -1,39 +1,42 @@
-<script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-    const AdController = window.Adsgram.init({ blockId: "28090" });
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>BINASOU GOLD OFFICIAL</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.js"></script>
+    <style>
+        :root { --gold: #FFD700; --bg: #000; --card: #111; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; text-align: center; overflow: hidden; }
+        
+        /* الرأس - الهيدر */
+        .header { padding: 25px; border-bottom: 1px solid #222; background: #050505; }
+        .balance-label { font-size: 13px; color: #888; letter-spacing: 1px; }
+        .balance-value { font-size: 50px; color: var(--gold); font-weight: bold; margin-top: 5px; }
 
-    let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
+        /* الأقسام */
+        .section { display: none; height: 70vh; padding: 20px; overflow-y: auto; }
+        .active { display: block; }
 
-    function mineClick() {
-        score += 1;
-        render();
-        tg.HapticFeedback.impactOccurred('medium');
-    }
+        /* دائرة التعدين وشعار Binasou */
+        .coin-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+        .gold-coin { 
+            width: 250px; height: 250px; 
+            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%, #8b6508 100%); 
+            border-radius: 50%; border: 8px solid #1a1a1a; 
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); 
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.05s; -webkit-tap-highlight-color: transparent;
+        }
+        .gold-coin:active { transform: scale(0.94); }
+        .logo-text { color: #000; font-size: 38px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
 
-    function watchAd() {
-        AdController.show().then(() => {
-            score += 1000; render(); alert("مبروك! ربحت 1,000 عملة");
-        }).catch(() => { alert("الإعلان غير جاهز بعد.."); });
-    }
+        /* بطاقات المهام */
+        .task-card { background: var(--card); padding: 15px; border-radius: 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; }
+        .task-info { text-align: right; }
+        .task-title { font-weight: bold; font-size: 16px; display: block; }
+        .task-reward { color: var(--gold); font-size: 12px; }
+        .action-btn { background: var(--gold); color: black; border: none; padding: 12px 22px; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
-    function changeTab(id, el) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-    }
-
-    function render() {
-        document.getElementById('balance').innerText = Math.floor(score).toLocaleString();
-        localStorage.setItem('binasou_bal', score);
-    }
-
-    function inviteFriend() {
-        tg.openTelegramLink("https://t.me/share/url?url=https://t.me/binasou_win_bot&text=انضم واربح الذهب!");
-    }
-
-    render();
-</script>
-</body>
-</html> 
+        /
