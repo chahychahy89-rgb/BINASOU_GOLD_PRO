@@ -1,9 +1,13 @@
-function watchAd() {
-    AdController.show().then(() => {
-        score += 1000; // إضافة الألف عملة
-        render(); // تحديث الرصيد على الشاشة
-        alert("تهانينا! حصلت على 1000 عملة");
-    }).catch(() => {
-        alert("الإعلان غير جاهز، حاول بعد قليل");
-    });
-}
+function runAd() {
+        if (typeof Adsgram !== 'undefined') {
+            const ad = Adsgram.init({ blockId: "28090" });
+            ad.show().then(() => { score += 1000; update(); }).catch(() => { alert("الإعلان غير جاهز"); });
+        } else {
+            alert("نظام الإعلانات معطل حالياً");
+        }
+    }
+
+    update();
+</script>
+</body>
+</html>
