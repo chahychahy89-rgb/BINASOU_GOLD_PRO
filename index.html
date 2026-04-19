@@ -1,74 +1,35 @@
-<div id="miningSection" class="content-section active mining-section">
-            <p class="miner-rank">رتبة: مبتدئ (Miner)</p>
-            <div class="coin-btn" id="coinTapBtn">
-                <span class="coin-logo">BNG</span>
-            </div>
-        </div>
-
-        <div id="tasksSection" class="content-section">
-            <h2 class="section-title">المهام اليومية</h2>
-            <p>سأضيف هنا مهام تلجرام و AdsGram لاحقاً.</p>
-        </div>
-        <div id="referralsSection" class="content-section">
-            <h2 class="section-title">دعوة الأصدقاء</h2>
-            <p>رابط الإحالة الخاص بك سيظهر هنا.</p>
-        </div>
-        <div id="leaderboardSection" class="content-section">
-            <h2 class="section-title">قائمة المتصدرين</h2>
-            <p>الخمسة الأوائل لهذا الأسبوع.</p>
-        </div>
-
-        <div class="navbar">
-            <div class="nav-item active" onclick="showSection('miningSection')">
-                <span class="nav-icon">⛏️</span><span>تعدين</span>
-            </div>
-            <div class="nav-item" onclick="showSection('tasksSection')">
-                <span class="nav-icon">📋</span><span>المهام</span>
-            </div>
-            <div class="nav-item" onclick="showSection('referralsSection')">
-                <span class="nav-icon">👥</span><span>الأصدقاء</span>
-            </div>
-            <div class="nav-item" onclick="showSection('leaderboardSection')">
-                <span class="nav-icon">🏆</span><span>ترتيب</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // تفعيل Telegram Mini App
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // فتح التطبيق بملء الشاشة
-        
-        let balance = 0;
-
-        // وظيفة النقر على العملة
-        const coinBtn = document.getElementById('coinTapBtn');
-        const balanceDisplay = document.getElementById('balanceDisplay');
-
-        coinBtn.addEventListener('click', () => {
-            balance++; // زيادة النقاط مؤقتاً في الواجهة (v0.1)
-            balanceDisplay.innerText = balance.toLocaleString('ar-EG'); // تنسيق الرقم
-        });
-
-        // وظيفة التبديل بين الأقسام (Tabs)
-        function showSection(sectionId) {
-            // إخفاء جميع الأقسام
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(s => s.classList.remove('active'));
-            
-            // إظهار القسم المطلوب
-            document.getElementById(sectionId).classList.add('active');
-
-            // تحديث القائمة السفلى (Tabs)
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(i => i.classList.remove('active'));
-            
-            // ربط القائمة بالقسم
-            const activeTab = {
-                'miningSection': 0, 'tasksSection': 1, 'referralsSection': 2, 'leaderboardSection': 3
-            }[sectionId];
-            navItems[activeTab].classList.add('active');
+// التعدين المستمر حتى لو الهاتف مغلق
+    function cloudMining() {
+        const now = Date.now();
+        const diff = Math.floor((now - lastVisit) / 1000); // الثواني التي مرت
+        if (diff > 0) {
+            const mined = diff * 0.1; // يربح 0.1 عملة كل ثانية وهو مغلق
+            score += mined;
+            updateUI();
+            if(diff > 60) alert(أهلاً بك! لقد جمع البوت ${Math.floor(mined)} عملة أثناء غيابك.);
         }
-    </script>
+    }
+
+    function tab(id, el) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        el.classList.add('active');
+    }
+
+    function invite() {
+        const url = https://t.me/share/url?url=https://t.me/binasou_win_bot?start=${tg.initDataUnsafe.user.id}&text=انضم لتعدين عملة Binasou واربح معي!;
+        tg.openTelegramLink(url);
+    }
+
+    // رسائل تشجيعية عشوائية
+    const messages = ["أنت مذهل! استمر في التعدين 🚀", "هل تعلم أنك تقترب من قائمة الصدارة؟ 🏆", "كل نقرة تقربك من الجائزة الأسبوعية! 💰"];
+    setInterval(() => {
+        document.getElementById('mining-msg').innerText = messages[Math.floor(Math.random() * messages.length)];
+    }, 10000);
+
+    cloudMining();
+    setInterval(updateUI, 1000);
+</script>
 </body>
 </html>
