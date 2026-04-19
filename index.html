@@ -1,14 +1,52 @@
-function invite() {
-        const url = https://t.me/share/url?url=https://t.me/binasou_win_bot?start=${tg.initDataUnsafe.user.id}&text=انضم لتعدين Binasou!;
-        tg.openTelegramLink(url);
-    }
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>BINASOU GOLD PRO</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.js"></script>
+    <style>
+        body { background-color: #000; color: #fff; text-align: center; font-family: sans-serif; margin: 0; padding: 0; overflow: hidden; }
+        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        .gold-button { width: 200px; height: 200px; background: radial-gradient(circle, #ffd700, #b8860b); border-radius: 50%; border: 5px solid #fff; box-shadow: 0 0 20px #ffd700; cursor: pointer; }
+        .balance { font-size: 40px; margin: 20px; color: #ffd700; font-weight: bold; }
+        .ad-btn { background-color: #ffd700; color: #000; padding: 15px 30px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="balance" id="scoreDisplay">0</div>
+        <div class="gold-button" onclick="handleTap()"></div>
+        <button class="ad-btn" onclick="showAd()">اربح 1000 نقطة (فيديو) 💰</button>
+    </div>
 
-    // التعدين أثناء الغياب
-    const now = Date.now();
-    const diff = Math.floor((now - lastVisit) / 1000);
-    if (diff > 0) { score += diff * 0.1; updateUI(); }
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        let score = parseInt(localStorage.getItem('userScore')) || 0;
+        document.getElementById('scoreDisplay').innerText = score.toLocaleString();
 
-    setInterval(updateUI, 1000);
-</script>
+        const AdController = window.Adsgram.init({ blockId: "28090" });
+
+        function handleTap() {
+            score += 1;
+            updateScore();
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function showAd() {
+            AdController.show().then(() => {
+                score += 1000;
+                updateScore();
+                alert("مبروك! حصلت على 1000 نقطة");
+            }).catch(() => { alert("الإعلان غير جاهز حالياً"); });
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').innerText = score.toLocaleString();
+            localStorage.setItem('userScore', score);
+        }
+    </script>
 </body>
 </html>
