@@ -1,71 +1,48 @@
-<div class="task-card">
-            <div class="task-info">
-                <span class="task-title">مشاهدة إعلان فيديو</span>
-                <span class="task-reward">+1,000 عملة</span>
-            </div>
-            <button class="btn-gold" onclick="watchAd()">تنفيذ</button>
+<div class="task-info"><span class="task-title">مشاهدة فيديو مكافأة</span><span class="task-reward">+1,000 عملة</span></div>
+            <button class="btn-gold" onclick="runAd()">تنفيذ</button>
         </div>
         <div class="task-card">
-            <div class="task-info">
-                <span class="task-title">دعوة شريك جديد</span>
-                <span class="task-reward">+5,000 عملة</span>
-            </div>
-            <button class="btn-gold" onclick="inviteFriend()">دعوة</button>
+            <div class="task-info"><span class="task-title">دعوة شريك جديد</span><span class="task-reward">+5,000 عملة</span></div>
+            <button class="btn-gold" onclick="invite()">دعوة</button>
         </div>
     </div>
 </div>
 
-<div class="nav-bar">
-    <div class="nav-item active" onclick="changeTab('mining-sec', this)">⛏️ تعدين</div>
-    <div class="nav-item" onclick="changeTab('tasks-sec', this)">💰 المهام</div>
-</div>
+<nav class="nav-bar">
+    <div class="nav-item active" onclick="tab('mining-sec', this)">⛏️ تعدين</div>
+    <div class="nav-item" onclick="tab('tasks-sec', this)">💰 المهام</div>
+</nav>
 
 <script>
     const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-
-    // تشغيل آمن للإعلانات
-    let adCtrl = null;
-    if (window.Adsgram) {
-        adCtrl = window.Adsgram.init({ blockId: "28090" });
-    }
+    tg.ready(); tg.expand();
 
     let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
+    const render = () => { 
+        document.getElementById('balance').innerText = Math.floor(score).toLocaleString(); 
+        localStorage.setItem('binasou_bal', score);
+    };
 
-    // تحسين استجابة النقر
     document.getElementById('coinBtn').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        score += 1;
-        render();
+        e.preventDefault(); score++; render();
         if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
     });
 
-    function render() {
-        document.getElementById('balance').innerText = Math.floor(score).toLocaleString();
-        localStorage.setItem('binasou_bal', score);
-    }
-
-    function changeTab(id, el) {
+    function tab(id, el) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         el.classList.add('active');
     }
 
-    function watchAd() {
-        if (adCtrl) {
-            adCtrl.show().then(() => {
-                score += 1000; render(); tg.showAlert("ربحت 1,000 عملة!");
-            }).catch(() => { tg.showAlert("الإعلان غير جاهز"); });
-        } else {
-            tg.showAlert("نظام الإعلانات غير مفعل");
+    function runAd() {
+        if (window.Adsgram) {
+            window.Adsgram.init({ blockId: "28090" }).show().then(() => { score += 1000; render(); });
         }
     }
 
-    function inviteFriend() {
-        const url = "https://t.me/binasou_win_bot";
-        tg.openTelegramLink(https://t.me/share/url?url=${encodeURIComponent(url)}&text=اربح الذهب معي!);
+    function invite() {
+        tg.openTelegramLink("https://t.me/share/url?url=https://t.me/binasou_win_bot&text=اربح الذهب!");
     }
 
     render();
