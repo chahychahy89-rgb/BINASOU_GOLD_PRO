@@ -1,34 +1,13 @@
-// التعدين المستمر حتى لو الهاتف مغلق
-    function cloudMining() {
-        const now = Date.now();
-        const diff = Math.floor((now - lastVisit) / 1000); // الثواني التي مرت
-        if (diff > 0) {
-            const mined = diff * 0.1; // يربح 0.1 عملة كل ثانية وهو مغلق
-            score += mined;
-            updateUI();
-            if(diff > 60) alert(أهلاً بك! لقد جمع البوت ${Math.floor(mined)} عملة أثناء غيابك.);
-        }
-    }
-
-    function tab(id, el) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-    }
-
-    function invite() {
-        const url = https://t.me/share/url?url=https://t.me/binasou_win_bot?start=${tg.initDataUnsafe.user.id}&text=انضم لتعدين عملة Binasou واربح معي!;
+function invite() {
+        const url = https://t.me/share/url?url=https://t.me/binasou_win_bot?start=${tg.initDataUnsafe.user.id}&text=انضم لتعدين Binasou!;
         tg.openTelegramLink(url);
     }
 
-    // رسائل تشجيعية عشوائية
-    const messages = ["أنت مذهل! استمر في التعدين 🚀", "هل تعلم أنك تقترب من قائمة الصدارة؟ 🏆", "كل نقرة تقربك من الجائزة الأسبوعية! 💰"];
-    setInterval(() => {
-        document.getElementById('mining-msg').innerText = messages[Math.floor(Math.random() * messages.length)];
-    }, 10000);
+    // التعدين أثناء الغياب
+    const now = Date.now();
+    const diff = Math.floor((now - lastVisit) / 1000);
+    if (diff > 0) { score += diff * 0.1; updateUI(); }
 
-    cloudMining();
     setInterval(updateUI, 1000);
 </script>
 </body>
