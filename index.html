@@ -1,28 +1,21 @@
-let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
-    const render = () => { document.getElementById('balance').innerText = Math.floor(score).toLocaleString(); localStorage.setItem('binasou_bal', score); };
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready(); tg.expand();
 
+    let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
+    const render = () => { 
+        document.getElementById('balance').innerText = Math.floor(score).toLocaleString(); 
+        localStorage.setItem('binasou_bal', score); 
+    };
+
+    // نظام النقر السريع
     document.getElementById('coinBtn').addEventListener('touchstart', (e) => {
-        e.preventDefault(); score++; render();
+        e.preventDefault(); 
+        score++; 
+        render();
         if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
     });
 
+    // التبديل بين الأقسام
     function tab(id, el) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-    }
-
-    function runAd() {
-        if (window.Adsgram) {
-            window.Adsgram.init({ blockId: "28090" }).show().then(() => { score += 1000; render(); });
-        }
-    }
-
-    function invite() {
-        tg.openTelegramLink("https://t.me/share/url?url=https://t.me/binasou_win_bot&text=انضم لنخبة BINASOU!");
-    }
-    render();
-</script>
-</body>
-</html>
+        document.querySelectorAll('.section').forEach(s => s.classList.
