@@ -1,24 +1,87 @@
-// دالة التبديل بين الأقسام
-function tab(id, el) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BINASOU GOLD OFFICIAL</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.js"></script>
+    <style>
+        :root { --gold: #FFD700; --bg: #000; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 0; text-align: center; overflow: hidden; touch-action: manipulation; }
+        
+        .header { padding: 25px 20px; background: #080808; border-bottom: 1px solid #222; }
+        .balance-value { font-size: 50px; color: var(--gold); font-weight: bold; }
+
+        .content { height: 70vh; display: flex; align-items: center; justify-content: center; }
+        .section { display: none; width: 100%; }
+        .active { display: block; }
+
+        /* دائرة التعدين والشعار */
+        .gold-button { 
+            width: 250px; height: 250px; border-radius: 50%;
+            background: radial-gradient(circle, #ffe047 0%, #b8860b 70%, #8b6508 100%); 
+            border: 8px solid #1a1a1a; box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.05s; cursor: pointer; margin: auto;
+        }
+        .gold-button:active { transform: scale(0.92); }
+        .coin-text { color: #000; font-size: 38px; font-weight: 900; letter-spacing: -1px; pointer-events: none; }
+
+        .nav-bar { position: fixed; bottom: 0; width: 100%; display: flex; background: #0a0a0a; border-top: 1px solid #222; padding-bottom: 15px; }
+        .nav-item { flex: 1; padding: 15px; color: #555; cursor: pointer; }
+        .nav-item.active { color: var(--gold); background: #111; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div style="font-size: 12px; color: #888;">رصيد BINASOU</div>
+    <div id="balance" class="balance-value">0</div>
+</div>
+
+<div class="content">
+    <div id="mining-sec" class="section active">
+        <div class="gold-button" id="coinBtn">
+            <span class="coin-text">BINASOU</span>
+        </div>
+        <p style="color:var(--gold); margin-top: 20px;">انقر لتجميع الذهب ⚡</p>
+    </div>
+</div>
+
+<div class="nav-bar">
+    <div class="nav-item active" onclick="tab('mining-sec', this)">⛏️ تعدين</div>
+    <div class="nav-item" onclick="tg.showAlert('قسم المهام قيد التحديث')">💰 المهام</div>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+
+    let score = parseFloat(localStorage.getItem('binasou_bal')) || 0;
     
-    const target = document.getElementById(id);
-    if (target) {
-        target.classList.add('active');
+    function render() {
+        document.getElementById('balance').innerText = Math.floor(score).toLocaleString();
+        localStorage.setItem('binasou_bal', score);
+    }
+
+    // إصلاح مشكلة اختفاء النص وسرعة النقر
+    document.getElementById('coinBtn').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        score += 1;
+        render();
+        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+    });
+
+    function tab(id, el) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
         el.classList.add('active');
     }
-}
 
-// دالة تشغيل الإعلانات
-function runAd() {
-    if (window.Adsgram) {
-        window.Adsgram.init({ blockId: "28090" }).show()
-            .then(() => { 
-                score += 1000; 
-                render(); 
-                tg.showAlert("مبروك! حصلت على 1,000 عملة ذهبية"); 
-            })
-            .catch(() => { tg.showAlert("الإعلان غير جاهز حالياً، جرب لاحقاً"); });
-    }
-}
+    render();
+</script>
+</body>
+</html>
