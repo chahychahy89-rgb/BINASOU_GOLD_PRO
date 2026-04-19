@@ -3,50 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>BINASOU GOLD PRO</title>
+    <title>Binasou Pro Gold</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.js"></script>
     <style>
-        body { background-color: #000; color: #fff; text-align: center; font-family: sans-serif; margin: 0; padding: 0; overflow: hidden; }
-        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        .gold-button { width: 200px; height: 200px; background: radial-gradient(circle, #ffd700, #b8860b); border-radius: 50%; border: 5px solid #fff; box-shadow: 0 0 20px #ffd700; cursor: pointer; }
-        .balance { font-size: 40px; margin: 20px; color: #ffd700; font-weight: bold; }
-        .ad-btn { background-color: #ffd700; color: #000; padding: 15px 30px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; margin-top: 20px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="balance" id="scoreDisplay">0</div>
-        <div class="gold-button" onclick="handleTap()"></div>
-        <button class="ad-btn" onclick="showAd()">اربح 1000 نقطة (فيديو) 💰</button>
-    </div>
+        :root { --gold: #FFD700; --bg: #0d0d0d; --card: #1a1a1a; }
+        body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; text-align: center; }
+        
+        /* Header */
+        .header { padding: 15px; background: #111; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 100; }
+        .balance-title { font-size: 14px; color: #888; }
+        .balance-value { font-size: 38px; color: var(--gold); font-weight: bold; }
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        let score = parseInt(localStorage.getItem('userScore')) || 0;
-        document.getElementById('scoreDisplay').innerText = score.toLocaleString();
+        /* Navigation */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #151515; display: flex; border-top: 1px solid #333; padding-bottom: 10px; }
+        .nav-item { flex: 1; padding: 12px; color: #888; cursor: pointer; transition: 0.3s; font-size: 13px; }
+        .nav-item.active { color: var(--gold); border-top: 3px solid var(--gold); background: #1a1a1a; }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
 
-        const AdController = window.Adsgram.init({ blockId: "28090" });
+        /* Content Sections */
+        .section { display: none; padding: 20px; margin-bottom: 80px; animation: fadeIn 0.4s; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        function handleTap() {
-            score += 1;
-            updateScore();
-            tg.HapticFeedback.impactOccurred('medium');
-        }
+        /* Mining Section */
+        .coin-btn { width: 220px; height: 220px; background: radial-gradient(circle, #ffec8b, #b8860b); border-radius: 50%; border: 8px solid #222; box-shadow: 0 0 30px var(--gold); margin: 40px auto; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: #000; }
+        .coin-btn:active { transform: scale(0.95); }
 
-        function showAd() {
-            AdController.show().then(() => {
-                score += 1000;
-                updateScore();
-                alert("مبروك! حصلت على 1000 نقطة");
-            }).catch(() => { alert("الإعلان غير جاهز حالياً"); });
-        }
-
-        function updateScore() {
-            document.getElementById('scoreDisplay').innerText = score.toLocaleString();
-            localStorage.setItem('userScore', score);
-        }
-    </script>
-</body>
-</html>
+        /* Task Cards */
+        .task-card { background: var(--card); padding: 15px; margin: 10px 0; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
+        .task-info { text-align: right; }
+        .task-name { font-weight: bold; font-size: 15px; display: block; }
+        .task-reward { color: var(--gold); font-size: 13px; }
+        .btn-
